@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 	
 	
-	$('#loadButton').on('click', function() {
+	$('#loadButton').one('click', function() {
 		$.ajax({
 			dataType: 'json',
 			url: urlNestoria,
@@ -18,15 +18,7 @@ $(document).ready(function() {
 						$('.box-task').append('<div>' + intermedKey + ' : ' + intermedValue +'</div>');
 					})
 				})
-				
-			
-				
-				//$('.box-task').append('<div id=' + key + '>' + key + ' : ' + data[key] + '</div>');
-				//$('.box-task').append('<div>' + data.request.sort + '</div>')
 			},
     	});
 	});
 });
-
-
-
