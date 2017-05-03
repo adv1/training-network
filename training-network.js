@@ -12,11 +12,28 @@ $(document).ready(function() {
 				console.log(data);
 		
 				$.each(data, function(dataKey,dataValue) {
-					$('.box-task').append('<div id=' + dataKey + '>' + dataKey + ' : ' + '</div>');
-					var intermedValue = dataValue;
-					$.each(intermedValue, function(intermedKey,intermedValue) {
-						$('.box-task').append('<div>' + intermedKey + ' : ' + intermedValue +'</div>');
-					})
+					$.each(dataValue, function(intermedKey,intermedValue) {
+						if (typeof intermedValue === 'object') {
+							$('.box-task').append('<div id='+ intermedKey + '>' + intermedKey + ' : ' +'</div>');
+							$.each(intermedValue, function(lowKey,lowValue) {
+								if (typeof lowValue !== 'object') {
+									$('#' + intermedKey).append('<div>' + lowKey + ' : ' + lowValue +'</div>').css('background-color', 'red');
+								} else $('#' + intermedKey).append('<div class='+ lowKey + '>' + lowKey + ' : ' +'</div>').css('background-color', 'lightblue');
+								
+								if (typeof lowValue === 'object') {
+									$.each(lowValue, function(key, value) {
+										$('.' + lowKey).append('<div>' + key + ' : ' + value +'</div>').css({
+											'background-color': 'coral',
+											border: 'solid black 1px',
+											'margin-bottom': '5px',
+										});
+									
+									});
+								};
+								
+							})
+						};
+						})
 				})
 			},
     	});
