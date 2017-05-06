@@ -38,36 +38,36 @@ $(document).ready(function() {
 										if(houseInfoKey === 'img_url'){
 											houseInfo_img_url = houseInfoValue;
 										};
-											if (houseInfoKey === 'img_height') {
-												houseInfo_img_height = houseInfoValue;
-											};
-												if (houseInfoKey === 'img_width') {
-													houseInfo_img_width = houseInfoValue;
-												};
-													if (houseInfoKey === 'bathroom_number') {
-														houseInfo_bathroom_number = houseInfoValue;
-													};
-														if (houseInfoKey === 'bedroom_number') {
-															houseInfo_bedroom_number = houseInfoValue || '-';
-														};
-															if (houseInfoKey === 'car_spaces') {
-																houseInfo_car_spaces = houseInfoValue;
-															};
-																if (houseInfoKey === 'commission') {
-																	houseInfo_commission = houseInfoValue;
-																};
-																	if (houseInfoKey === 'construction_year') {
-																		houseInfo_construction_year = houseInfoValue;
-																	};
-																		if (houseInfoKey === 'keywords') {
-																			houseInfo_keywords = houseInfoValue;
-																		};
-																			if (houseInfoKey === 'price_formatted') {
-																				houseInfo_price_formatted = houseInfoValue;
-																			};
-																				if (houseInfoKey === 'lister_name') {
-																					houseInfo_lister_name = houseInfoValue;
-																				};
+										if (houseInfoKey === 'img_height') {
+											houseInfo_img_height = houseInfoValue;
+										};
+										if (houseInfoKey === 'img_width') {
+											houseInfo_img_width = houseInfoValue;
+										};
+										if (houseInfoKey === 'bathroom_number') {
+											houseInfo_bathroom_number = houseInfoValue;
+										};
+										if (houseInfoKey === 'bedroom_number') {
+											houseInfo_bedroom_number = houseInfoValue || '-';
+										};
+										if (houseInfoKey === 'car_spaces') {
+											houseInfo_car_spaces = houseInfoValue;
+										};
+										if (houseInfoKey === 'commission') {
+											houseInfo_commission = houseInfoValue;
+										};
+										if (houseInfoKey === 'construction_year') {
+											houseInfo_construction_year = houseInfoValue;
+										};
+										if (houseInfoKey === 'keywords') {
+											houseInfo_keywords = houseInfoValue;
+										};
+										if (houseInfoKey === 'price_formatted') {
+											houseInfo_price_formatted = houseInfoValue;
+										};
+										if (houseInfoKey === 'lister_name') {
+											houseInfo_lister_name = houseInfoValue;
+										};
 									});
 
 									$('.' + keyInResponse).append('<div class=in-listing' + keyInListings + '>' + '</div>');
