@@ -6,17 +6,39 @@
 	<link rel="stylesheet" type="text/css" href="training-network-style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="training-network.js"></script>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> 
 	
 </head>
 <body>
 	<div class="container">
 		<div class="box-total"> 
-			<h1>Training task for network</h1>
-			<div class="box-btn">
-				<button id="loadButton">Click to load data</button>
+			<div class="page-header">
+  				<h1>Training task for network <small></small></h1>
 			</div>
-			<div class="box-task"> </div>
+			<div class="btn-group" data-toggle="buttons">
+				<button id="load-button" type="button" class="btn btn-info">Click to load data</button>
+				<button id="reset-button" type="button" class="btn btn-danger">Reset page</button>
+			</div>
+			<div class="box-task"> 
+				<div class="row">
+				  <div class="col-sm-8 col-md-10 col-lg-12">
+				  	<div class="description-house-room"></div>
+				  </div>
+				</div>
+			</div>
 		</div>
+		<ul class="pagination">
+		  <li><a href="#">&laquo;</a></li>
+		  <li><a href="#" id="part-1">1</a></li>
+		  <li><a href="#" id="part-2">2</a></li>
+		  <li><a href="#" id="part-3">3</a></li>
+		  <li><a href="#" id="part-4">4</a></li>
+		  <li><a href="#" id="part-5">5</a></li>
+		  <li><a href="#">&raquo;</a></li>
+		</ul>
 	</div>
 </body>
 </html>

@@ -3,14 +3,14 @@
 	width: 800px;
 	margin:  auto;
 }
-h1, p { text-align: center }
-#loadButton { 
-	background-color: dodgerblue;
-	color: white;
-	height: 50px;
+h1 { text-align: center } 
+p { text-align: right }
+#load-button, #reset-button { 
 	margin-bottom: 10px;
+	margin-left: 5px;
 }
 .box-task {
+	width: 700px;
 	background-color: lightgrey;
 	margin: auto;
 	margin-bottom: 5px;
@@ -20,4 +20,9 @@ h1, p { text-align: center }
 	border: solid black 1px;
 	margin-bottom: 10px;
 	margin-top: 10px;
-} 
+}
+.thumbnail {
+	display: flex;
+
+}
+.thumbnail div {flex-wrap: wrap; align-content:  center; }
