@@ -21,8 +21,7 @@ $(document).ready(function() {
 								  '</div>' + 
 								  '<div class="media-body">' + 
 								    '<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
-								    '<h4>' + 'Lister name: ' + listing.lister_name + '</h4>' + 
-								    '<p>' + listing.summary + '</p>' + 
+								    '<h4>' + listing.title + '</h4>' + 
 								  '</div>' + 
 								'</div>');
 				});
