@@ -4,7 +4,6 @@
 	margin:  auto;
 }
 h1 { text-align: center } 
-p { text-align: right }
 #load-button, #reset-button { 
 	margin-bottom: 10px;
 	margin-left: 5px;
@@ -15,14 +14,6 @@ p { text-align: right }
 	margin: auto;
 	margin-bottom: 5px;
 }
-#request, #response {
-	background-color: lightskyblue;
-	border: solid black 1px;
-	margin-bottom: 10px;
-	margin-top: 10px;
-}
-.thumbnail {
-	display: flex;
-
-}
-.thumbnail div {flex-wrap: wrap; align-content:  center; }
+.media { border: solid gray 1px; display: flex;}
+.media-object, .media-body { margin: 5px; display: flex; }
+h4 { text-align: left; }
