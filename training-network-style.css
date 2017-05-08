@@ -1,15 +1,9 @@
-.container {
-	text-align: center;
-	margin:  auto;
-}
+.container { text-align: center; margin: auto }
 h1 { text-align: center } 
 h4, p { text-align: left }
-#load-button, #reset-button { 
-	margin-bottom: 10px;
-	margin-left: 5px;
-}
+#load-button, #reset-button { margin: 10px }
 .box-task {
-	background-color: lightgrey;
+	background-color: whitesmoke;
 	margin: auto;
 	margin-bottom: 5px;
 }

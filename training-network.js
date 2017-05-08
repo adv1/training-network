@@ -2,16 +2,14 @@ $(document).ready(function() {
 
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
-	
-	$('#reset-button').on('click', function() { 
-		location.reload()
-	});
-	$('#load-button').on('click', function() { 
+
+	var $getData = function() { 
 		$.ajax({
 			dataType: 'json',
 			url: urlNestoria,
 			success: function (data) {
 				console.log(data);
+				var listing, index;
 
 				data.response.listings.forEach(function(listing, index) {
 					$('.description-house-room')
@@ -21,11 +19,21 @@ $(document).ready(function() {
 								  '</div>' + 
 								  '<div class="media-body">' + 
 								    '<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
-								    '<h4>' + listing.title + '</h4>' + 
+								    '<p>' + listing.title + '</p>' + 
 								  '</div>' + 
 								'</div>');
+					if (index <= 20) { $('#load-more-button').show().css({margin: '10px'}) }; 
 				});
+				
 			},
-	    });
-	})
+		});
+	};
+
+	$('#load-more-button').hide();
+	
+	$('#reset-button').on('click', function() { 
+		location.reload()
+	});
+	$('#load-button').on('click',  $getData);
+	$('#load-more-button').on('click', $getData);
 });
