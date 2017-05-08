@@ -1,12 +1,13 @@
 $(document).ready(function() {
 
+	$('#load-more-button').hide();
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var $getData = function() { 
+	var $getData = function(url) { 
 		$.ajax({
 			dataType: 'json',
-			url: urlNestoria,
+			url: url,
 			success: function (data) {
 				console.log(data);
 				var listing, index;
@@ -24,16 +25,11 @@ $(document).ready(function() {
 								'</div>');
 					if (index <= 20) { $('#load-more-button').show().css({margin: '10px'}) }; 
 				});
-				
 			},
 		});
 	};
-
-	$('#load-more-button').hide();
 	
-	$('#reset-button').on('click', function() { 
-		location.reload()
-	});
-	$('#load-button').on('click',  $getData);
-	$('#load-more-button').on('click', $getData);
+	$('#reset-button').on('click', function() { location.reload() });
+	$('#load-button').on('click', function() { $getData(urlNestoria) } );
+	$('#load-more-button').on('click', function() { $getData(urlNestoria) } );
 });

@@ -4,8 +4,8 @@ h4, p { text-align: left }
 #load-button, #reset-button { margin: 10px }
 .box-task {
 	background-color: whitesmoke;
+	width: 500px;
 	margin: auto;
-	margin-bottom: 5px;
 }
-.media { border: solid gray 1px; display: flex;}
-.media-object, .media-body { margin: 5px; display: flex; }
+.media { border: solid gray 1px}
+.media-object, .media-body { margin: 5px }
