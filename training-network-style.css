@@ -1,19 +1,17 @@
 .container {
 	text-align: center;
-	width: 800px;
 	margin:  auto;
 }
 h1 { text-align: center } 
+h4, p { text-align: left }
 #load-button, #reset-button { 
 	margin-bottom: 10px;
 	margin-left: 5px;
 }
 .box-task {
-	width: 700px;
 	background-color: lightgrey;
 	margin: auto;
 	margin-bottom: 5px;
 }
 .media { border: solid gray 1px; display: flex;}
 .media-object, .media-body { margin: 5px; display: flex; }
-h4 { text-align: left; }
