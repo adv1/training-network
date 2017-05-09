@@ -1,10 +1,9 @@
-.container { text-align: center; margin: auto }
+.container, .description-house-room { text-align: center; margin: auto }
 h1 { text-align: center } 
 h4, p { text-align: left }
 #load-button, #reset-button { margin: 10px }
 .box-task {
-	background-color: whitesmoke;
-	width: 500px;
+	width: 600px;
 	margin: auto;
 }
 .media { border: solid gray 1px}
