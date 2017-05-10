@@ -3,24 +3,17 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var dataFromUrl, dataFromRequest, responseInfo, responseListings, indexListings;
+	var dataFromRequest, responseListings;
 
 	function $getData(url) {
 		$.ajax({
 			dataType: 'json',
 			url: url,
-			success:  function(dataFromUrl) {
-				dataFromRequest = dataFromUrl;
-				Listing(dataFromRequest);
+			success:  function(data) {
+				dataFromRequest = data.response;
+				parseResponse(dataFromRequest);
 			},
 		});
-	};
-
-	function Listing(argument) {
-		// your request should be here
-
-		responseInfo = argument.response;
-		parseResponse(responseInfo);
 	};
 
 	function parseResponse(response) {
@@ -28,50 +21,51 @@ $(document).ready(function() {
 		
 		response.listings.forEach(function(listing, index) {
 			responseListings = listing;
-			indexListings = index;
 			render(responseListings);
 		});
-		if ((indexListings+1) <= 20) { 
+		moreInfo(responseListings);
+		if (parseResponse.length <= 20) { 
 			$('#load-more-button').show().css({margin: '10px'}) 
 		};
 	};
 
 	function render(requiredArguments) {
 		// DOM manipulations should be here
-		var listingInside = requiredArguments;
 
 		$('.description-house-room')
 			.append('<div class="media">' +
 					  '<div class="pull-left">' +
-					    '<img class="media-object" src="' +listingInside.thumb_url+ ' " alt="' +listingInside.keywords+ '">' +
+					    '<img class="media-object" src="' +requiredArguments.thumb_url+ ' " alt="' +requiredArguments.keywords+ '">' +
 					  '</div>' + 
 					  '<div class="media-body">' + 
-					    '<h4 class="media-heading">' + listingInside.price_formatted + '</h4>' + 
-					    '<p>' + listingInside.title + '</p>' + 
+					    '<h4 class="media-heading">' + requiredArguments.price_formatted + '</h4>' + 
+					    '<p>' + requiredArguments.title + '</p>' + 
 					  '</div>' + 
 					'</div>');
-		$('.media').on('click', function() { 
-			$('#load-more-button').hide();
-			showMoreInfo(listingInside);
-		});	
 	};
 
-	function showMoreInfo(listingArgument) { 
+	function moreInfo(listingArgument) { 
+		$('.media').on('click', function() { 
+			$('#load-more-button').hide();
+			showMoreInfo(listingArgument);
+		});
+	};
 
+	function showMoreInfo(listingArgumentMoreInfo) { 
 		$('.description-house-room')
 			.empty()
 			.append('<div class="media">' +
 					  '<a class="pull-left">' +
-					    '<img class="media-object" src="' +listingArgument.img_url+ ' " alt="' +listingArgument.keywords+ '">' +
+					    '<img class="media-object" src="' +listingArgumentMoreInfo.img_url+ ' " alt="' +listingArgumentMoreInfo.keywords+ '">' +
 					  '</a>' + 
 					  '<div class="media-body">' + 
-					    '<h4 class="media-heading">' + listingArgument.price_formatted + '</h4>' + 
-					    '<p>' + 'Bathroom number: ' + listingArgument.bathroom_number + '</p>' + 
-					    '<p>' + 'Bedroom number: ' + listingArgument.bedroom_number + '</p>' + 
-					    '<p>' + 'Car spaces: ' + listingArgument.car_spaces + '</p>' + 
-					    '<p>' + 'Commission: ' + listingArgument.commission + '</p>' + 
-					    '<p>' + 'Construction year: ' + listingArgument.construction_year + '</p>' + 
-					    '<p>' + listingArgument.summary + '</p>' + 
+					    '<h4 class="media-heading">' + listingArgumentMoreInfo.price_formatted + '</h4>' + 
+					    '<p>' + 'Bathroom number: ' + listingArgumentMoreInfo.bathroom_number + '</p>' + 
+					    '<p>' + 'Bedroom number: ' + listingArgumentMoreInfo.bedroom_number + '</p>' + 
+					    '<p>' + 'Car spaces: ' + listingArgumentMoreInfo.car_spaces + '</p>' + 
+					    '<p>' + 'Commission: ' + listingArgumentMoreInfo.commission + '</p>' + 
+					    '<p>' + 'Construction year: ' + listingArgumentMoreInfo.construction_year + '</p>' + 
+					    '<p>' + listingArgumentMoreInfo.summary + '</p>' + 
 					  '</div>' + 
 					'</div>');
 
@@ -84,7 +78,7 @@ $(document).ready(function() {
 	$('#go-back-button').on('click', function() { 
 		$('#go-back-button, #load-more-button').hide();
 		$('.description-house-room').empty();
-		$getData(urlNestoria);
+		parseResponse(dataFromRequest);
 	});
 });
 
