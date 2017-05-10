@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var dataFromRequest, responseListings;
+	var dataFromRequest, responseListings, listingInside;
 
 	function $getData(url) {
 		$.ajax({
@@ -18,13 +18,14 @@ $(document).ready(function() {
 
 	function parseResponse(response) {
 		// Responce parsing should be here + check for load more button availability
-		
-		response.listings.forEach(function(listing, index) {
-			responseListings = listing;
-			render(responseListings);
+
+		responseListings = response.listings;
+		responseListings.forEach(function(listing, index) {
+			render(listing);
+			listingInside = listing;
 		});
-		moreInfo(responseListings);
-		if (parseResponse.length <= 20) { 
+		moreInfo(listingInside);
+		if (responseListings.length <= 20) { 
 			$('#load-more-button').show().css({margin: '10px'}) 
 		};
 	};
@@ -78,7 +79,7 @@ $(document).ready(function() {
 	$('#go-back-button').on('click', function() { 
 		$('#go-back-button, #load-more-button').hide();
 		$('.description-house-room').empty();
-		parseResponse(dataFromRequest);
+		parseResponse(dataFromRequest); //parseResponse(dataFromRequest);
 	});
 });
 
