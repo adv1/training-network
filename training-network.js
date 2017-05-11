@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var dataFromRequest, responseListings, listingInside;
+	var dataFromRequest, responseListings, listingInside, arrayListings;
 
 	function $getData(url) {
 		$.ajax({
@@ -17,69 +17,70 @@ $(document).ready(function() {
 	};
 
 	function parseResponse(response) {
-		// Responce parsing should be here + check for load more button availability
-
 		responseListings = response.listings;
-		responseListings.forEach(function(listing, index) {
-			render(listing);
-			listingInside = listing;
-		});
-		moreInfo(listingInside);
-		if (responseListings.length <= 20) { 
+		arrayListings = responseListings.map(function(value){ return value });
+		render(arrayListings);
+		if (response.listings.length <= 20 || arrayListings.length <= 20) { 
 			$('#load-more-button').show().css({margin: '10px'}) 
 		};
 	};
 
 	function render(requiredArguments) {
-		// DOM manipulations should be here
-
-		$('.description-house-room')
-			.append('<div class="media">' +
-					  '<div class="pull-left">' +
-					    '<img class="media-object" src="' +requiredArguments.thumb_url+ ' " alt="' +requiredArguments.keywords+ '">' +
-					  '</div>' + 
-					  '<div class="media-body">' + 
-					    '<h4 class="media-heading">' + requiredArguments.price_formatted + '</h4>' + 
-					    '<p>' + requiredArguments.title + '</p>' + 
-					  '</div>' + 
-					'</div>');
-	};
-
-	function moreInfo(listingArgument) { 
-		$('.media').on('click', function() { 
-			$('#load-more-button').hide();
-			showMoreInfo(listingArgument);
+		requiredArguments.forEach(function(listing, index){
+			$('.description-house-room')
+				.append('<div class="media" id="'+index+'">' +
+				  '<div class="pull-left">' +
+				    '<img class="media-object" src="' +listing.thumb_url+ ' " alt="' +listing.keywords+ '">' +
+				  '</div>' + 
+				  '<div class="media-body">' + 
+				    '<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
+				    '<p>' + listing.title + '</p>' + 
+				  '</div>' + 
+				'</div>');
+			 listingInside = listing;
 		});
+		
+		if (requiredArguments.length <= 20 || arrayListings.length <= 20) { 
+			$('#load-more-button').show().css({margin: '10px'}) 
+		};
+		showMoreInfo(listingInside);
 	};
 
 	function showMoreInfo(listingArgumentMoreInfo) { 
-		$('.description-house-room')
-			.empty()
-			.append('<div class="media">' +
-					  '<a class="pull-left">' +
-					    '<img class="media-object" src="' +listingArgumentMoreInfo.img_url+ ' " alt="' +listingArgumentMoreInfo.keywords+ '">' +
-					  '</a>' + 
-					  '<div class="media-body">' + 
-					    '<h4 class="media-heading">' + listingArgumentMoreInfo.price_formatted + '</h4>' + 
-					    '<p>' + 'Bathroom number: ' + listingArgumentMoreInfo.bathroom_number + '</p>' + 
-					    '<p>' + 'Bedroom number: ' + listingArgumentMoreInfo.bedroom_number + '</p>' + 
-					    '<p>' + 'Car spaces: ' + listingArgumentMoreInfo.car_spaces + '</p>' + 
-					    '<p>' + 'Commission: ' + listingArgumentMoreInfo.commission + '</p>' + 
-					    '<p>' + 'Construction year: ' + listingArgumentMoreInfo.construction_year + '</p>' + 
-					    '<p>' + listingArgumentMoreInfo.summary + '</p>' + 
-					  '</div>' + 
-					'</div>');
-
-		$('#go-back-button').show().css({margin: '10px'});
+		$('.media').on('click', function(event) { 
+			$('#load-more-button').hide();
+			$('.description-house-room').empty().prepend($(event.currentTarget))
+				.append('<div class="media">' +
+							'<a class="pull-left">' +
+								'<img class="media-object" src="' + listingArgumentMoreInfo.img_url + ' " alt="' +listingArgumentMoreInfo.keywords+ '">' +
+							'</a>' + 
+							'<div class="media-body">' + 
+								'<h4 class="media-heading">' + listingArgumentMoreInfo.price_formatted + '</h4>' + 
+								'<p>' + 'Bathroom number: ' + listingArgumentMoreInfo.bathroom_number + '</p>' + 
+								'<p>' + 'Bedroom number: ' + listingArgumentMoreInfo.bedroom_number + '</p>' + 
+								'<p>' + 'Car spaces: ' + listingArgumentMoreInfo.car_spaces + '</p>' + 
+								'<p>' + 'Commission: ' + listingArgumentMoreInfo.commission + '</p>' + 
+								'<p>' + 'Construction year: ' + listingArgumentMoreInfo.construction_year + '</p>' + 
+								'<p>' + listingArgumentMoreInfo.summary + '</p>' + 
+							'</div>' + 
+						'</div>');
+			console.log($(event.currentTarget));
+			
+			$('#go-back-button').show().css({margin: '10px'});
+		});
 	};
 	
 	$('#reset-button').on('click', function() { location.reload() });
 	$('#load-button').on('click', function() { $getData(urlNestoria); });
-	$('#load-more-button').on('click', function() { $getData(urlNestoria) } );
+	$('#load-more-button').on('click', function() { 
+		render(responseListings);
+		arrayListings = arrayListings.concat(responseListings);
+	});
 	$('#go-back-button').on('click', function() { 
-		$('#go-back-button, #load-more-button').hide();
+		$('#go-back-button').hide();
 		$('.description-house-room').empty();
-		parseResponse(dataFromRequest); //parseResponse(dataFromRequest);
+		render(arrayListings);
+		$('#load-more-button').show().css({margin: '10px'}) 
 	});
 });
 
