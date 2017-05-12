@@ -3,53 +3,48 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var dataFromRequest, responseListings, arrayListings;
+	var responseListings = [], imitateNetRequest = [];
 
 	function $getData(url) {
 		$.ajax({
 			dataType: 'json',
 			url: url,
 			success:  function(data) {
-				dataFromRequest = data.response;
-				parseResponse(dataFromRequest);
+				parseResponse(data.response);
 			},
 		});
 	};
 
 	function parseResponse(response) {
-		responseListings = response.listings;
-		arrayListings = responseListings.map(function(value){ return value });
-		render(arrayListings);
-		if (response.listings.length <= 20 || arrayListings.length <= 20) { 
-			$('#load-more-button').show().css({margin: '10px'}) 
+		responseListings = imitateNetRequest = response.listings;
+		render(response.listings);
+		if (response.listings.length <= 20) { 
+			$('#load-more-button').show().css({margin: '10px'});
 		};
 	};
 
-	function render(requiredArguments) {
-		requiredArguments.forEach(function(listing, index){
+	function render(arrayListings) {
+		arrayListings.forEach(function(listing, index){
 			$('.description-house-room')
 				.append('<div class="media" id="'+index+'">' +
 				  '<div class="pull-left">' +
 				    '<img class="media-object" src="' +listing.thumb_url+ ' " alt="' +listing.keywords+ '">' +
 				  '</div>' + 
 				  '<div class="media-body">' + 
-				    '<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
+				    '<h4 class="media-heading">' + listing.price_formatted + ' --- ' +index+ '</h4>' + 
 				    '<p>' + listing.title + '</p>' + 
 				  '</div>' + 
 				'</div>');
 		});
-		if (requiredArguments.length <= 20 || arrayListings.length <= 20) { 
-			$('#load-more-button').show().css({margin: '10px'}) 
-		};
-		showMoreInfo(requiredArguments);
+		showMoreInfo(arrayListings);
 	};
 
-	function showMoreInfo(listingArgumentMoreInfo) { 
+	function showMoreInfo(listingMoreInfo) { 
 		$('.media').on('click', function(event) { 
 			$('#load-more-button').hide();
 			var targetId = event.currentTarget.id;
 			$(function() {
-				listingArgumentMoreInfo.forEach(function(listing, index){
+				listingMoreInfo.forEach(function(listing, index){
 					if (index == targetId) {
 						$('.description-house-room').empty()
 							.append('<div class="media" id="'+targetId+'">' +
@@ -74,15 +69,20 @@ $(document).ready(function() {
 	};
 	
 	$('#reset-button').on('click', function() { location.reload() });
-	$('#load-button').on('click', function() { $getData(urlNestoria); });
-	$('#load-more-button').on('click', function() { 
-		render(responseListings);
-		arrayListings = arrayListings.concat(responseListings);
+	$('#load-button').on('click', function() { 
+		$getData(urlNestoria); 
+		$('#load-button').hide();
 	});
+	$('#load-more-button').on('click', function() { 
+		$('.description-house-room').empty();
+		responseListings = responseListings.concat(imitateNetRequest);
+		render(responseListings)
+	});
+
 	$('#go-back-button').on('click', function() { 
 		$('#go-back-button').hide();
 		$('.description-house-room').empty();
-		render(arrayListings);
+		render(responseListings);
 		$('#load-more-button').show().css({margin: '10px'}) 
 	});
 });
