@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var dataFromRequest, responseListings, listingInside, arrayListings;
+	var dataFromRequest, responseListings, arrayListings;
 
 	function $getData(url) {
 		$.ajax({
@@ -37,35 +37,38 @@ $(document).ready(function() {
 				    '<p>' + listing.title + '</p>' + 
 				  '</div>' + 
 				'</div>');
-			 listingInside = listing;
 		});
-		
 		if (requiredArguments.length <= 20 || arrayListings.length <= 20) { 
 			$('#load-more-button').show().css({margin: '10px'}) 
 		};
-		showMoreInfo(listingInside);
+		showMoreInfo(requiredArguments);
 	};
 
 	function showMoreInfo(listingArgumentMoreInfo) { 
 		$('.media').on('click', function(event) { 
 			$('#load-more-button').hide();
-			$('.description-house-room').empty().prepend($(event.currentTarget))
-				.append('<div class="media">' +
-							'<a class="pull-left">' +
-								'<img class="media-object" src="' + listingArgumentMoreInfo.img_url + ' " alt="' +listingArgumentMoreInfo.keywords+ '">' +
-							'</a>' + 
-							'<div class="media-body">' + 
-								'<h4 class="media-heading">' + listingArgumentMoreInfo.price_formatted + '</h4>' + 
-								'<p>' + 'Bathroom number: ' + listingArgumentMoreInfo.bathroom_number + '</p>' + 
-								'<p>' + 'Bedroom number: ' + listingArgumentMoreInfo.bedroom_number + '</p>' + 
-								'<p>' + 'Car spaces: ' + listingArgumentMoreInfo.car_spaces + '</p>' + 
-								'<p>' + 'Commission: ' + listingArgumentMoreInfo.commission + '</p>' + 
-								'<p>' + 'Construction year: ' + listingArgumentMoreInfo.construction_year + '</p>' + 
-								'<p>' + listingArgumentMoreInfo.summary + '</p>' + 
-							'</div>' + 
-						'</div>');
-			console.log($(event.currentTarget));
-			
+			var targetId = event.currentTarget.id;
+			$(function() {
+				listingArgumentMoreInfo.forEach(function(listing, index){
+					if (index == targetId) {
+						$('.description-house-room').empty()
+							.append('<div class="media" id="'+targetId+'">' +
+							   '<a class="pull-left">' +
+								'<img class="media-object" src="' + listing.img_url + ' " alt="' +listing.keywords+ '">' +
+							   '</a>' + 
+							   '<div class="media-body">' + 
+								'<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
+								'<p>' + 'Bathroom number: ' + listing.bathroom_number + '</p>' + 
+								'<p>' + 'Bedroom number: ' + listing.bedroom_number + '</p>' + 
+								'<p>' + 'Car spaces: ' + listing.car_spaces + '</p>' + 
+								'<p>' + 'Commission: ' + listing.commission + '</p>' + 
+								'<p>' + 'Construction year: ' + listing.construction_year + '</p>' + 
+								'<p>' + listing.summary + '</p>' + 
+							   '</div>' + 
+							'</div>');
+					};
+				});
+			});
 			$('#go-back-button').show().css({margin: '10px'});
 		});
 	};
