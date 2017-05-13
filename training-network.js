@@ -3,88 +3,84 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var responseListings = [], imitateNetRequest = [];
+	var responseListings = [], totalListings = 60; //let's emulate some total results. The proper field response.total_results
 
 	function $getData(url) {
 		$.ajax({
 			dataType: 'json',
 			url: url,
-			success:  function(data) {
+			success: function(data) {
 				parseResponse(data.response);
+				$('#load-button').hide();
 			},
 		});
 	};
 
 	function parseResponse(response) {
-		responseListings = imitateNetRequest = response.listings;
-		render(response.listings);
-		if (response.listings.length <= 20) { 
-			$('#load-more-button').show().css({margin: '10px'});
-		};
+		responseListings = responseListings.concat(response.listings);
+		// totalListings = response.total_results;
+		render(responseListings);
 	};
 
-	function render(arrayListings) {
-		arrayListings.forEach(function(listing, index){
+	function render(listings) {
+		var $loadMoreButton = $('#load-more-button');
+		responseListings.length < totalListings ? $loadMoreButton.show() : $loadMoreButton.hide();
+
+		$('.description-house-room').empty();
+		listings.forEach(function(listing, index){
 			$('.description-house-room')
-				.append('<div class="media" id="'+index+'">' +
+				.append('<div class="media" data-id="'+index+'">' +
 				  '<div class="pull-left">' +
 				    '<img class="media-object" src="' +listing.thumb_url+ ' " alt="' +listing.keywords+ '">' +
 				  '</div>' + 
 				  '<div class="media-body">' + 
-				    '<h4 class="media-heading">' + listing.price_formatted + ' --- ' +index+ '</h4>' + 
+				    '<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
 				    '<p>' + listing.title + '</p>' + 
 				  '</div>' + 
 				'</div>');
 		});
-		showMoreInfo(arrayListings);
 	};
 
-	function showMoreInfo(listingMoreInfo) { 
-		$('.media').on('click', function(event) { 
-			$('#load-more-button').hide();
-			var targetId = event.currentTarget.id;
-			$(function() {
-				listingMoreInfo.forEach(function(listing, index){
-					if (index == targetId) {
-						$('.description-house-room').empty()
-							.append('<div class="media" id="'+targetId+'">' +
-							   '<a class="pull-left">' +
-								'<img class="media-object" src="' + listing.img_url + ' " alt="' +listing.keywords+ '">' +
-							   '</a>' + 
-							   '<div class="media-body">' + 
-								'<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
-								'<p>' + 'Bathroom number: ' + listing.bathroom_number + '</p>' + 
-								'<p>' + 'Bedroom number: ' + listing.bedroom_number + '</p>' + 
-								'<p>' + 'Car spaces: ' + listing.car_spaces + '</p>' + 
-								'<p>' + 'Commission: ' + listing.commission + '</p>' + 
-								'<p>' + 'Construction year: ' + listing.construction_year + '</p>' + 
-								'<p>' + listing.summary + '</p>' + 
-							   '</div>' + 
-							'</div>');
-					};
-				});
-			});
-			$('#go-back-button').show().css({margin: '10px'});
-		});
+	function tryToShowDetails(e) {
+		var $currentTargetId = $(e.target).closest('.media').data('id');
+		if ($currentTargetId !== undefined) {
+			showListingDetails(responseListings[$currentTargetId]);
+		};
+	};
+
+	function showListingDetails(listing) { 
+		$('#load-more-button').hide();
+		$('.description-house-room').empty()
+			.append('<div class="media">' +
+				'<a class="pull-left">' +
+				'<img class="media-object" src="' + listing.img_url + ' " alt="' +listing.keywords+ '">' +
+				'</a>' + 
+				'<div class="media-body">' + 
+				'<h4 class="media-heading">' + listing.price_formatted + '</h4>' + 
+				'<p>' + 'Bathroom number: ' + listing.bathroom_number + '</p>' + 
+				'<p>' + 'Bedroom number: ' + listing.bedroom_number + '</p>' + 
+				'<p>' + 'Car spaces: ' + listing.car_spaces + '</p>' + 
+				'<p>' + 'Commission: ' + listing.commission + '</p>' + 
+				'<p>' + 'Construction year: ' + listing.construction_year + '</p>' + 
+				'<p>' + listing.summary + '</p>' + 
+				'</div>' + 
+			'</div>');
+		$('#go-back-button').show().css({margin: '10px'});
 	};
 	
+
 	$('#reset-button').on('click', function() { location.reload() });
 	$('#load-button').on('click', function() { 
-		$getData(urlNestoria); 
-		$('#load-button').hide();
+		$getData(urlNestoria);
 	});
 	$('#load-more-button').on('click', function() { 
-		$('.description-house-room').empty();
-		responseListings = responseListings.concat(imitateNetRequest);
-		render(responseListings)
+		$getData(urlNestoria);
 	});
-
 	$('#go-back-button').on('click', function() { 
 		$('#go-back-button').hide();
-		$('.description-house-room').empty();
 		render(responseListings);
-		$('#load-more-button').show().css({margin: '10px'}) 
 	});
+	$('.description-house-room').on('click', tryToShowDetails);
 });
 
 // при клике на какой-то итем из списка который ты отображаешь, будешь отображать подробную информацию о данном итеме
