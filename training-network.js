@@ -3,7 +3,7 @@ $(document).ready(function() {
 	var urlGeodata = 'https://api.myjson.com/bins/mgypt';
 	var urlNestoria = 'https://api.myjson.com/bins/dnqyp';
 
-	var responseListings = [], totalListings = 60; //let's emulate some total results. The proper field response.total_results
+	var responseListings = [], totalListings = 60;
 
 	function $getData(url) {
 		$.ajax({
@@ -82,12 +82,3 @@ $(document).ready(function() {
 	});
 	$('.description-house-room').on('click', tryToShowDetails);
 });
-
-// при клике на какой-то итем из списка который ты отображаешь, будешь отображать подробную информацию о данном итеме
-// на странице подробной информации сделаешь кнопку которая будет вести на предыдущую страницу со списком листингов
-// в твоем кейсе это означает
-// что по клику на итемы ты рендеришь в контейнер со списком листингов информацию о деталях листинга
-// при клике на кнопку goBack ты рендеришь в контейнер с листингами листинги которые у тебя были
-// хранить данные будешь скорей всего в своей изолированой глобальной области видимости
-// определяемой посредством функции document.ready
-// а получать доступ к данным из нужных тебе методов посредством замыканий
